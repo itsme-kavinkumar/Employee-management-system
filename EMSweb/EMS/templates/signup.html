@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>EMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'registerlogin.css' %}">
+
+</head>
+
+
+<body>
+
+  <div style="position: absolute; top: 29px; left: 77%;width: 330px;">
+    {% include "message.html" %}
+  </div>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+
+      <form action="{% url 'signup' %}" name="signup-form" method="post">
+        {% csrf_token %}
+        <h1>Create Account</h1>
+        <div class="social-container">
+          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <input type="text" class="firstname_input" name="first_name" id="firstname" value="{{data.first_name}}"
+          placeholder="first name" />
+        <span class="firstname_error" style="color: red; font-weight: bold;"></span>
+
+        <input type="text" class="lastname_input" name="last_name" value="{{data.last_name}}" id="lastname"
+          placeholder="last name" />
+        <span class="lastname_error" style="color: red; font-weight: bold;"></span>
+
+        <input type="text" class="username_input" name="username" value="{{data.username}}" id="usser_name"
+          placeholder="username" />
+        <span class="username_error" style="color: red; font-weight: bold;"></span>
+
+        <input type="email" class="email_input" name="email" value="{{data.email}}" id="e_mail"
+          placeholder="Your Email" />
+        <span class="email_error" style="color: red; font-weight: bold;"></span>
+
+        <input type="text" class="password_input" name="password" value="{{data.password}}" id="pass_word"
+          placeholder="Password" />
+        <span class="password_error" style="color: red; font-weight: bold;"></span>
+
+        <input type="password" class="c_password_input"  name="confirm_password" id="re_password"
+          placeholder=" confirm password" />
+        <span class="c-password_error" style="color: red; font-weight: bold;"></span>
+
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+
+      <form action="{% url 'login_user' %}" name="login-form" method="post">
+        {% csrf_token %}
+        <h1>Sign in</h1>
+        <div class="social-container">
+          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <span>or use your account</span>
+        <input type="text" name="username" value="" id="login_username" placeholder="username" />
+        <span class="username__error" style="color: red; font-weight: bold;"></span>
+
+        <input type="text" name="password" id="login_password" placeholder="Password" />
+        <span class="password__error" style="color: red; font-weight: bold;"></span>
+
+        <a href="#">Forgot your password?</a>
+        <button>Sign In</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+      container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+      container.classList.remove("right-panel-active");
+    });
+
+
+  </script>
+  <script>
+    document.forms['signup-form'].onsubmit = function (event) {
+      if (this.first_name.value.trim() === "") {
+        document.getElementById("firstname").style.border = "1px solid red";
+        document.querySelector('.firstname_error').innerHTML = "Please enter  firstname!";
+        document.querySelector(".firstname_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("firstname").style.border = "";
+        document.querySelector(".firstname_error").style.display = "none";
+      }
+      if (this.last_name.value.trim() === "") {
+        document.getElementById("lastname").style.border = "1px solid red";
+        document.querySelector('.lastname_error').innerHTML = "Please enter  lastname!";
+        document.querySelector(".lastname_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("lastname").style.border = "";
+        document.querySelector(".lastname_error").style.display = "none";
+      }
+      if (this.username.value.trim() === "") {
+        document.getElementById("usser_name").style.border = "1px solid red";
+        document.querySelector('.username_error').innerHTML = "Please enter  lastname!";
+        document.querySelector(".username_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("usser_name").style.border = "";
+        document.querySelector(".username_error").style.display = "none";
+      }
+      if (this.email.value.trim() === "") {
+        document.getElementById("e_mail").style.border = "1px solid red";
+        document.querySelector('.email_error').innerHTML = "Please enter  lastname!";
+        document.querySelector(".email_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("e_mail").style.border = "";
+        document.querySelector(".email_error").style.display = "none";
+      }
+      if (this.password.value.trim() === "") {
+        document.getElementById("pass_word").style.border = "1px solid red";
+        document.querySelector('.password_error').innerHTML = "Please enter  lastname!";
+        document.querySelector(".password_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("pass_word").style.border = "";
+        document.querySelector(".password_error").style.display = "none";
+      }
+      if (this.confirm_password.value.trim() === "") {
+        document.getElementById("re_password").style.border = "1px solid red";
+        document.querySelector('.c-password_error').innerHTML = "Please enter  lastname!";
+        document.querySelector(".c-password_error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("re_password").style.border = "";
+        document.querySelector(".c-password_error").style.display = "none";
+      }
+      
+    }
+    document.getElementById("firstname").addEventListener("input", function () {
+      document.getElementById("firstname").style.border = "";
+      document.querySelector('.firstname_error').style.display = "none";
+    });
+    document.getElementById("lastname").addEventListener("input", function () {
+      document.getElementById("lastname").style.border = "";
+      document.querySelector('.lastname_error').style.display = "none";
+    });
+    document.getElementById("usser_name").addEventListener("input", function () {
+      document.getElementById("usser_name").style.border = "";
+      document.querySelector('.username_error').style.display = "none";
+    });
+    document.getElementById("e_mail").addEventListener("input", function () {
+      document.getElementById("e_mail").style.border = "";
+      document.querySelector('.email_error').style.display = "none";
+    });
+    document.getElementById("pass_word").addEventListener("input", function () {
+      document.getElementById("pass_word").style.border = "";
+      document.querySelector('.pass_word_error').style.display = "none";
+    });
+    document.getElementById("re_password").addEventListener("input", function () {
+      document.getElementById("re_password").style.border = "";
+      document.querySelector('.c-password_error').style.display = "none";
+    });
+  document.forms["login-form"].onsubmit = function (event) {
+      if (this.username.value.trim() === "") {
+        document.getElementById("login_username").style.border = "1px solid red";
+        document.querySelector('.username__error').innerHTML = "Please enter  username!";
+        document.querySelector(".username__error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("login_username").style.border = "";
+        document.querySelector(".username__error").style.display = "none";
+      }
+      if (this.password.value.trim() === "") {
+        document.getElementById("login_password").style.border = "1px solid red";
+        document.querySelector('.password__error').innerHTML = "Please enter  password!";
+        document.querySelector(".password__error").style.display = "block";
+        event.preventDefault();
+        return false;
+      } else {
+        document.getElementById("login_password").style.border = "";
+        document.querySelector(".password__error").style.display = "none";
+      }
+
+    }
+    document.getElementById("login_username").addEventListener("input", function () {
+      document.getElementById("login_username").style.border = "";
+      document.querySelector('.username__error').style.display = "none";
+    });
+    document.getElementById("login_password").addEventListener("input", function () {
+      document.getElementById("login_password").style.border = "";
+      document.querySelector('.password__error').style.display = "none";
+    });
+
+
+
+
+  </script>
+</body>
+
+</html>
