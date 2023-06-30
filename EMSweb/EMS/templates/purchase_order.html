@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Employee Management</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'skillselect.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="../../index.html"><img src="{% static 'images/ems_logo.png' %}"
+                        alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="../../index.html"><img
+                        src="{% static 'images/logo-mini.svg' %}" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <div class="search-field d-none d-md-block">
+                    <form class="d-flex align-items-center h-100" action="#">
+                        <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                                <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                            </div>
+                            <input type="text" class="form-control bg-transparent border-0"
+                                placeholder="Search projects">
+                        </div>
+                    </form>
+                </div>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item nav-profile dropdown">
+                        <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <div class="nav-profile-img">
+                                <img src="{% static 'images/faces/face1.jpg' %}" alt="image">
+                                <span class="availability-status online"></span>
+                            </div>
+                            <div class="nav-profile-text">
+                                <p class="mb-1 text-black">{{request.user.username}}</p>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="mdi mdi-cached me-2 text-success"></i>
+                                Activity Log </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout_user' %} ">
+                                <i class="mdi mdi-logout me-2 text-primary"></i>
+                                Signout </a>
+                        </div>
+                    </li>
+                    <li class="nav-item d-none d-lg-block full-screen-link">
+                        <a class="nav-link">
+                            <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-email-outline"></i>
+                            <span class="count-symbol bg-warning"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                            aria-labelledby="messageDropdown">
+                            <h6 class="p-3 mb-0">Messages</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <img src="{% static 'images/faces/face4.jpg' %}" alt="image" class="profile-pic">
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Mark
+                                        send you a message
+                                    </h6>
+                                    <p class="text-gray mb-0"> 1 Minutes ago
+                                    </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <img src="{% static 'images/faces/face2.jpg' %}" alt="image" class="profile-pic">
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Cregh
+                                        send you a
+                                        message</h6>
+                                    <p class="text-gray mb-0"> 15 Minutes
+                                        ago </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <img src="{% static 'images/faces/face3.jpg' %}" alt="image" class="profile-pic">
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Profile
+                                        picture updated
+                                    </h6>
+                                    <p class="text-gray mb-0"> 18 Minutes
+                                        ago </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="p-3 mb-0 text-center">4 new messages</h6>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
+                            data-bs-toggle="dropdown">
+                            <i class="mdi mdi-bell-outline"></i>
+                            <span class="count-symbol bg-danger"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                            aria-labelledby="notificationDropdown">
+                            <h6 class="p-3 mb-0">Notifications</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="mdi mdi-calendar"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject font-weight-normal mb-1">Event
+                                        today</h6>
+                                    <p class="text-gray ellipsis mb-0"> Just
+                                        a reminder that you have an event
+                                        today
+                                    </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-warning">
+                                        <i class="mdi mdi-settings"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
+                                    <p class="text-gray ellipsis mb-0">
+                                        Update dashboard </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-info">
+                                        <i class="mdi mdi-link-variant"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                    <h6 class="preview-subject font-weight-normal mb-1">Launch
+                                        Admin</h6>
+                                    <p class="text-gray ellipsis mb-0"> New
+                                        admin wow! </p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="p-3 mb-0 text-center">See all
+                                notifications</h6>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-logout d-none d-lg-block">
+                        <a class="nav-link" href="#">
+                            <i class="mdi mdi-power"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-settings d-none d-lg-block">
+                        <a class="nav-link" href="#">
+                            <i class="mdi mdi-format-line-spacing"></i>
+                        </a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item nav-profile">
+                        <a href="#" class="nav-link">
+                            <div class="nav-profile-image">
+                                <img src="{% static 'images/faces/face1.jpg' %}" alt="profile">
+                                <span class="login-status online"></span>
+                                <!--change to offline or busy as needed-->
+                            </div>
+                            <div class="nav-profile-text d-flex flex-column">
+                                <span class="font-weight-bold mb-2">{{request.user.username}}</span>
+
+                            </div>
+                            <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'employee-page' %}">
+                            <span class="menu-title">Dashboard</span>
+                            <i class="mdi mdi-home menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'newemployee' %}">
+                            <span class="menu-title">NEW Employee</span>
+                            <i class="mdi mdi-contacts menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'employee' %} ">
+                            <span class="menu-title">employee List</span>
+                            <i class="mdi mdi-table-large menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empattandance2' %} ">
+                            <span class="menu-title">Attendance</span>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'salary' %} ">
+                            <span class="menu-title">Salary </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'manage_ment' %} ">
+                            <span class="menu-title">manage </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logistics_page' %} ">
+                            <span class="menu-title">logistics </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tranporter_func' %} ">
+                            <span class="menu-title">transporters </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'final_bill_func' %} ">
+                            <span class="menu-title">Bill List </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'purchase_home' %}">
+                            <span class="menu-title">Purchase </span>
+                            <i class="mdi mdi-chart-bar menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <div class="collapse" id="general-pages">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="../../pages/samples/blank-page.html">
+                                    Blank
+                                    Page </a>
+                            </li>
+                            <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html">
+                                    Login </a>
+                            </li>
+                            <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html">
+                                    Register
+                                </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-404.html">
+                                    404
+                                </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-500.html">
+                                    500
+                                </a></li>
+                        </ul>
+                    </div>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+
+                    <div class="page-header">
+
+                        <div style="position: absolute; top: 77px; left: 77%;width: 330px;">
+                            {% include "message.html" %}
+                        </div>
+                        <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert"
+                            role="alert" id="message_show"> Bill Added
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+                        </div>
+                        <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert"
+                            role="alert" id="updatedmessage_show"> Bill updated
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+                        </div>
+                        <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert"
+                            role="alert" id="deletedmessage_show"> Bill deleted
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="card" id="logis-form">
+                        <div class="card-header">
+                            <h6 id="CardTitle"> Add Purchase Order </h6>
+                        </div>
+                        <div class="card-body">
+                            <form class="form-sample" name="billform" onsubmit="return validateform()">
+                                {% csrf_token %}
+
+
+                                <form action="/purchase/purchaseorder/" method="POST" data-select2-id="21">
+                                    <input type="hidden" name="csrfmiddlewaretoken"
+                                        value="wZ153o0vCt7IV9hTqXTRZt67XOnw5GPVOk4sbMhEM07LwValNEAPwF9U5h6F0yHW">
+                                    <!-- SUPPLIER NAME ROW -->
+                                    <div class="row" data-select2-id="42">
+                                        <div class="col-12" data-select2-id="41">
+                                            <div class="d-lg-flex d-md-flex justify-content-lg-start"
+                                                data-select2-id="40">
+
+                                                <div class="col-lg-7 col-sm-12" data-select2-id="39">
+                                                    <div class="d-lg-flex d-md-flex justify-content-md-between justify-content-lg-start"
+                                                        data-select2-id="38">
+                                                        <div class="form-group col-lg-6 col-sm-12 col-md-6"
+                                                            data-select2-id="37">
+                                                            <div class="mb-3 me-4" data-select2-id="36">
+                                                                <label class="form-label fw-bold">Ledger Name</label>
+                                                                <select
+                                                                    class="form-select js-select-search-ddl select2-hidden-accessible"
+                                                                    name="supplier" id="ddlSupplierName" required=""
+                                                                    validate="" data-select2-id="ddlSupplierName"
+                                                                    tabindex="-1" aria-hidden="true"
+                                                                    style="border-left-color: rgb(249, 117, 21);">
+                                                                    <option value="0" selected="" hidden=""
+                                                                        data-select2-id="5">Select supplier</option>
+                                                                    {% for i in supplier_lst %}
+                                                                    {% if temporaryybill.trans_porter == i.id %}
+                                                                    <option value="{{i.id}}" selected>{{i.transporter}}
+                                                                    </option>
+                                                                    {% else %}
+                                                                    <option value="{{i.id}}">{{i.supplier_name}}
+                                                                    </option>
+                                                                    {% endif %}
+                                                                    {% endfor%}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6 col-sm-12 col-md-6"
+                                                            style="position: absolute;right: 37%;width: 28%;">
+                                                            <div class="form-group mt-4 mb-3 me-2" id="">
+                                                                <div class="input-group date datepicker mt-2"
+                                                                    id="datePickerExample3">
+                                                                    <span class="input-group-text fw-bold"> Date</span>
+                                                                    <input type="text" name="date"
+                                                                        value="{{curnt_date}}" tabindex="-1"
+                                                                        class="form-control" id="txtdDate"
+                                                                        name="txtExpectedDate" control="date"
+                                                                        setdate="yes" readonly="">
+                                                                    <span
+                                                                        class="input-group-text input-group-addon"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-calendar">
+                                                                            <rect x="3" y="4" width="18" height="18"
+                                                                                rx="2" ry="2"></rect>
+                                                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                                        </svg></span>
+                                                                </div>
+                                                                <input type="hidden" id="hdnExpDate">
+                                                                <!-- <input type="hidden" name="hiddenSalesDate" id="hiddenSalesDate" >  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5 col-sm-12">
+                                                    <div class="d-lg-flex d-md-flex justify-content-md-between justify-content-lg-start"
+                                                        style="width:45%; position: absolute;left:69%;">
+
+
+                                                        <div class="col-md-6 col-sm-6 col-lg-7">
+                                                            <div class="form-group mt-4 mb-3" id="">
+                                                                <div class="input-group date datepicker mt-2"
+                                                                    id="PurchaseOrderdatePicker">
+                                                                    <span
+                                                                        class="input-group-text fw-bold">PO.Date</span>
+                                                                    <input type="text" tabindex="-1"
+                                                                        class="form-control" id="txtPODate"
+                                                                        name="txtPODate" control="date" setdate="yes"
+                                                                        readonly="">
+                                                                    <span
+                                                                        class="input-group-text input-group-addon"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-calendar">
+                                                                            <rect x="3" y="4" width="18" height="18"
+                                                                                rx="2" ry="2"></rect>
+                                                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                                        </svg></span>
+                                                                </div>
+                                                                <input type="hidden" name="hiddenPODate"
+                                                                    id="hiddenPODate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SECOND ROW -->
+                                    <div class="row" data-select2-id="20">
+
+                                        <div class="form-group col-md-6 col-sm-4 col-lg-3" data-select2-id="19"
+                                            style="width: 30%;">
+                                            <div class="mb-3" data-select2-id="18">
+                                                <label class="form-label fw-bold">Item Name</label>
+                                                <select name="product" id="ddlItemName"
+                                                    class="form-select js-select-search-ddl select2-hidden-accessible"
+                                                    validate="" data-select2-id="ddlItemName" tabindex="-1"
+                                                    aria-hidden="true" style="border-left-color: rgb(249, 117, 21);">
+                                                    <option value="0" selected="" hidden="" data-select2-id="7">Select
+                                                        Item</option>
+
+                                                    {% for i in item_lst %}
+                                                      <option value="{{i.id}}" price="{{i.price}}">{{i.product_name}}</option> 
+                                                        
+                                                    {% endfor%}
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-2 col-sm-6 col-md-4"
+                                            style="width: 30%; position: absolute;right: 36.5%;">
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold" for="txtQuantity">Quantity</label>
+                                                <input type="text" class="form-control" id="txtQuantity" name="quantity"
+                                                    validate=""
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                    fdprocessedid="6s22f" style="border-left-color: rgb(249, 117, 21);">
+                                                <span class="text-danger" id="spanQuantity"></span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="hiddenEstDetArray" name="hiddenEstDetArray" value="">
+                                        <div class="mb-3 col-lg-3 col-md-4"
+                                            style="width: 30%; position: absolute;right: 2.5%;">
+                                            <div class="col-lg-12">
+                                                <label class="form-label fw-bold" for="txtAmount">Amount <small
+                                                        class="text-muted">(Incl. Tax)</small></label>
+                                                <div class="input-group">
+                                                    <input type="text" tabindex="-1" class="form-control" id="txtAmount"
+                                                        name="Amount" readonly="">
+                                                    <span id="btnAdd" onclick="purchsefunction()"
+                                                        class="input-group-text btn btn-success text-white">Add</span>
+                                                    <span id="btnupdate" onclick=" "
+                                                    class="input-group-text btn btn-success text-white" style="display: none;">update</span>
+                                                        
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- TABLE OF PURCHASE ORDER DATA -->
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-3">
+                                            <thead class="text-center" style="background-color: #ecf0f5;">
+                                                <tr>
+
+                                                    <th class="text-dark fw-bolder">date</th>
+                                                    <th class="text-dark fw-bolder">supplier</th>
+                                                    <th class="text-dark fw-bolder">Item</th>
+                                                    <th class="text-dark fw-bolder">Qty</th>
+                                                    <th class="text-dark fw-bolder">Amount</th>
+                                                    <th class="text-dark fw-bolder">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbodyRow">
+                                                <tr id="trNoRecord" val="1">
+                                                    <td colspan="9" class="text-muted text-center">No Records Added</td>
+                                                </tr>
+                                            </tbody>
+                                            <!-- <tfoot>
+                                                <tr>
+                                                    <th colspan="4">Total</th>
+                                                    <td class="text-end fw-bold" id="tdtotQty">0.00</td>
+                                                    <td colspan="2" class="text-end fw-bold" id="tdDiscount">0.00</td>
+                                                    <input type="hidden" value="" name="txtTotalDisAmt"
+                                                        id="txtTotalDisAmt">
+
+
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot> -->
+                                        </table>
+                                    </div>
+                                    <!-- <input type="hidden" id="hiddenPurchaseOrdArray" name="hiddenPurchaseOrdArray">
+                                            <input type="hidden" id="hiddenRequestIndentDATA" name="hiddenRequestIndentDATA" value="">
+                                            <input type="hidden" name="hiddenGetPurchaseData" id="hiddenGetPurchaseData">
+                                            <input type="hidden" name="hiddenProPlanPoData" id="hiddenProPlanPoData">
+                                            <input type="hidden" name="hiddenProPlanSoId" id="hiddenProPlanSoId"> -->
+
+                                    <!-- PURCHASE ORDER FORM FOOT CONTENT -->
+                                    <div class="row">
+                                        <div class="d-lg-flex justify-content-lg-between">
+                                            <div class="col-lg-5">
+                                                <div class="form-group mb-3">
+
+                                                </div>
+                                                <div class="mb-3">
+
+                                                </div>
+                                                <div class="form-group mb-3">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <label for=""></label>
+                                                <div class="mt-2 mb-3">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text col-5 fw-bold">Total
+                                                            Amount</span>
+                                                        <input tabindex="-1" type="text" name="txtTaxableAmount"
+                                                            id="txtTaxableAmount" class="form-control" readonly="">
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="float-end">
+
+
+                                                    <input type="hidden" id="hiddenEdit" name="hiddenEdit" value="0">
+                                                    <a type="submit" id="btnSave" href="{% url 'final_purchase_order' %}"
+                                                        name="btnSave" class="btn btn-success" value="Save"
+                                                        fdprocessedid="g116m" style="position: absolute;right:22%;padding-left: 30px;padding-right: 30px;">Save</a>
+
+
+                                                    <button type="button" id="btnClear"
+                                                        onclick="window.location.reload()" class="btn btn-danger"
+                                                        fdprocessedid="t7jdbc"  style="position: absolute;right:12%;padding-left: 30px;padding-right: 30px;">Cancel</button>
+
+                                                    <a href="{% url 'pending_purchlist'%}" type="button" id="btnGoToList"
+                                                        class="btn btn-primary submit" style="position: absolute;right:3.5%;padding-left: 10px;padding-right: 10px;">Go To
+                                                        List</a>
+                                                </div>
+                                                <br>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+
+                    </form>
+                </div>
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+    </div>
+
+    <style>
+
+    </style>
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'js/off-canvas.js' %}"></script>
+    <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'js/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'js/file-upload.js' %}"></script>
+    <script src="{% static 'logistic.js' %}"></script>
+    <script src="{% static 'purchase.js' %}"></script>
+    <script src="{% static 'message.js' %}"></script>
+    <!-- End custom js for this page -->
+<script>
+    $("#cancelbtn").on("click", function () {
+  location.reload();
+});
+
+// qnty to Amont function
+
+$(document).ready(function() {
+    $('#ddlItemName').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var price = selectedOption.attr('price');
+        alert(price);
+        console.log(price);
+        
+        $("#txtQuantity").on("input", function () {
+            var quan_tity = $("#txtQuantity").val();
+            var amt = price * quan_tity;
+            $("#txtAmount").val(amt);
+        });
+    });
+});
+
+ 
+
+function purchsefunction() {
+    
+  supplier_id = $("#ddlSupplierName").val();
+  date_id = $("#txtdDate").val();
+  quantity_id = $("#txtQuantity").val();
+  product_id = $("#ddlItemName").val();
+  Amount_id = $("#txtAmount").val();
+  console.log(supplier_id, date_id, quantity_id, product_id, Amount_id);
+
+  $.ajax({
+    url: "{% url 'temprary_purchase' %}",
+    type: "POST",
+    data: {
+      supplier: supplier_id,
+      date: date_id,
+      quantity: quantity_id,
+      product: product_id,
+      Amount: Amount_id,
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    },
+    dataType: "json",
+
+    success: function (data) {
+      console.log(data.purchase_bill.length);
+      console.log(data);
+
+      $("#tbodyRow").empty();
+      if (data.purchase_bill.length === 0) {
+        var noDataMessage =
+          '<p colspan="6"  style="position: absolute;right: 50%;top: 50%;">No data found</p>';
+        $("#trNoRecord").append(noDataMessage);
+        $("#txtTaxableAmount").val(0.0);
+      } else {
+        $.each(data.purchase_bill, function (index, value) {
+          var delete_url = "temprypurchse_delete(" + value.id + ")";
+          var edit_url = "edit_tempraypurchase(" + value.id + ")";
+
+          var row =
+            "<tr>" +
+            "<td>" +
+            value.date +
+            "</td>" +
+            "<td>" +
+            value.product_name +
+            "</td>" +
+            "<td>" +
+            value.supplier_name +
+            "</td>" +
+            "<td>" +
+            value.quantity +
+            "</td>" +
+            "<td>" +
+            value.amount +
+            "</td>" +
+            "<td>" +
+            '<a onclick="' +
+            delete_url +
+            '">' +
+            '<i class="fa-solid fa-trash fa-fade fa-xl"></i>' +
+            "</a>" +
+            "&nbsp;  &nbsp;" +
+            '<a onclick="' +
+            edit_url +
+            '">' +
+            ' <i class="fa-sharp fa-solid fa-pen-to-square fa-fade fa-xl"></i>' +
+            " </a>" +
+            "&nbsp;  &nbsp;" +
+            "</td></tr>";
+
+          $("#tbodyRow").append(row);
+          $("#txtTaxableAmount").val(value.amount);
+        });
+
+        $("#ddlSupplierName").val("");
+        $("#txtdDate").val();
+        $("#txtQuantity").val("");
+        $("#ddlItemName").val("");
+        $("#txtAmount").val("");
+      }
+      $("#message_show").show();
+      setTimeout(function () {
+        $("#message_show").hide();
+      }, 3000);
+    },
+  });
+}
+
+// -----------tempurchase delete
+function temprypurchse_delete(id) {
+  $.ajax({
+    url: "{% url 'Delete_tempurchase' %}",
+    type: "POST",
+    data: {
+      billid: id,
+
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    },
+    dataType: "json",
+    success: function (data) {
+      console.log(data.purchase_bill.length);
+      console.log(data);
+      $("#trNoRecord").show();
+      $("#tbodyRow").empty();
+      if (data.purchase_bill.length === 0) {
+        var noDataMessage =
+          '<p colspan="6"  style="position: absolute;right: 50%;top: 50%;">No data found</p>';
+        $("#trNoRecord").append(noDataMessage);
+        $("#txtTaxableAmount").val(0.0);
+      } else {
+        $.each(data.purchase_bill, function (index, value) {
+          var delete_url = "temprypurchse_delete(" + value.id + ")";
+          var edit_url = "edit_tempraypurchase(" + value.id + ")";
+
+          var row =
+            "<tr>" +
+            "<td>" +
+            value.date +
+            "</td>" +
+            "<td>" +
+            value.product_name +
+            "</td>" +
+            "<td>" +
+            value.supplier_name +
+            "</td>" +
+            "<td>" +
+            value.quantity +
+            "</td>" +
+            "<td>" +
+            value.amount +
+            "</td>" +
+            "<td>" +
+            '<a onclick="' +
+            delete_url +
+            '">' +
+            '<i class="fa-solid fa-trash fa-fade fa-xl"></i>' +
+            "</a>" +
+            "&nbsp;  &nbsp;" +
+            '<a onclick="' +
+            edit_url +
+            '">' +
+            ' <i class="fa-sharp fa-solid fa-pen-to-square fa-fade fa-xl"></i>' +
+            " </a>" +
+            "&nbsp;  &nbsp;" +
+            "</td></tr>";
+
+          $("#tbodyRow").append(row);
+        });
+
+        $("#ddlSupplierName").val("");
+        $("#txtdDate").val();
+        $("#txtQuantity").val("");
+        $("#ddlItemName").val("");
+        $("#txtAmount").val("");
+      }
+      $("#deletedmessage_show").show();
+      setTimeout(function () {
+        $("#deletedmessage_show").hide();
+      }, 3000);
+    },
+  });
+}
+
+function updatecancel_Function() {
+  $("#transporterid").val("");
+  $("#amountid").val("");
+  $("#shipping_typeid").val("");
+  $("#customerid").val("");
+}
+//   tempry purchase value get
+function edit_tempraypurchase(id) {
+  $.ajax({
+    url: "{% url 'Edit_temprypurchase' %}",
+    data: {
+      purchaseid: id,
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    },
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+
+      $("#ddlSupplierName")
+        .find('option[value="' + data.supplier + '"]')
+        .prop("selected", true);
+
+      $("#txtdDate").val(data.date);
+
+      $("#txtAmount").val(data.amount);
+
+      $("#txtQuantity")
+        .find('option[value="' + data.quantity + '"]')
+        .prop("selected", true);
+
+      $("#ddlItemName")
+        .find('option[value="' + data.product + '"]')
+        .prop("selected", true);
+
+      $("#btnupdate").attr("onclick", "temprypurchase_update(" + data.id + ")");
+      $("#btnAdd").hide();
+      $("#btnupdate").show();
+    },
+  });
+}
+// update temprray purchase function
+function temprypurchase_update(id) {
+  supplier_id = $("#ddlSupplierName").val();
+  date_id = $("#txtdDate").val();
+  quantity_id = $("#txtQuantity").val();
+  product_id = $("#ddlItemName").val();
+  Amount_id = $("#txtAmount").val();
+  console.log(supplier_id, date_id, quantity_id, product_id, Amount_id);
+
+  $.ajax({
+    url: "{% url 'temprary_purchase_update' %}",
+    type: "POST",
+    data: {
+      purchseid: id,
+      supplier: supplier_id,
+      date: date_id,
+      quantity: quantity_id,
+      product: product_id,
+      Amount: Amount_id,
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    },
+    dataType: "json",
+
+    success: function (data) {
+      console.log(data.purchase_bill.length);
+      console.log(data);
+
+      $("#tbodyRow").empty();
+      if (data.purchase_bill.length === 0) {
+        var noDataMessage =
+          '<p colspan="6"  style="position: absolute;right: 50%;top: 50%;">No data found</p>';
+        $("#trNoRecord").append(noDataMessage);
+        $("#txtTaxableAmount").val(0.0);
+      } else {
+        $.each(data.purchase_bill, function (index, value) {
+          var delete_url = "temprypurchse_delete(" + value.id + ")";
+          var edit_url = "edit_tempraypurchase(" + value.id + ")";
+
+          var row =
+            "<tr>" +
+            "<td>" +
+            value.date +
+            "</td>" +
+            "<td>" +
+            value.product_name +
+            "</td>" +
+            "<td>" +
+            value.supplier_name +
+            "</td>" +
+            "<td>" +
+            value.quantity +
+            "</td>" +
+            "<td>" +
+            value.amount +
+            "</td>" +
+            "<td>" +
+            '<a onclick="' +
+            delete_url +
+            '">' +
+            '<i class="fa-solid fa-trash fa-fade fa-xl"></i>' +
+            "</a>" +
+            "&nbsp;  &nbsp;" +
+            '<a onclick="' +
+            edit_url +
+            '">' +
+            ' <i class="fa-sharp fa-solid fa-pen-to-square fa-fade fa-xl"></i>' +
+            " </a>" +
+            "&nbsp;  &nbsp;" +
+            "</td></tr>";
+
+          $("#tbodyRow").append(row);
+          $("#txtTaxableAmount").val(value.amount);
+        });
+
+        $("#ddlSupplierName").val("");
+        $("#txtdDate").val();
+        $("#txtQuantity").val("");
+        $("#ddlItemName").val("");
+        $("#txtAmount").val("");
+
+        $("#btnAdd").show();
+        $("#btnupdate").hide();
+      }
+      $("#updatedmessage_show").show();
+      setTimeout(function () {
+        $("#updatedmessage_show").hide();
+      }, 3000);
+    },
+  });
+}
+
+</script>
+   
+
+</body>
+
+</html>

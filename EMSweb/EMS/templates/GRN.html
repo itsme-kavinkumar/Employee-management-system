@@ -1,0 +1,474 @@
+{% extends "plugin.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="page-header">
+
+            <div style="position: absolute; top: 77px; left: 77%;width: 330px;">
+                {% include "message.html" %}
+            </div>
+            <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert" role="alert"
+                id="message_show"> Bill Added
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+            </div>
+            <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert" role="alert"
+                id="updatedmessage_show"> Bill updated
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+            </div>
+            <div style="display: none;position: absolute; top: 77px; left: 77%;width: 330px;" class="alert" role="alert"
+                id="deletedmessage_show"> Bill deleted
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+            </div>
+        </div>
+
+
+        <div class="card" id="logis-form">
+            <div class="card-header">
+                <h6 id="CardTitle"> Add GRN</h6>
+            </div>
+            <div class="card-body">
+                <form class="form-sample" name="billform" onsubmit="return validateform()">
+                    {% csrf_token %}
+
+
+                    <form action="/purchase/purchaseorder/" method="POST" data-select2-id="21">
+                        <input type="hidden" name="csrfmiddlewaretoken"
+                            value="wZ153o0vCt7IV9hTqXTRZt67XOnw5GPVOk4sbMhEM07LwValNEAPwF9U5h6F0yHW">
+                        <!-- SUPPLIER NAME ROW -->
+                        <div class="row" data-select2-id="42">
+                            <div class="col-12" data-select2-id="41">
+                                <div class="d-lg-flex d-md-flex justify-content-lg-start" data-select2-id="40">
+
+                                    <div class="col-lg-7 col-sm-12" data-select2-id="39">
+                                        <div class="d-lg-flex d-md-flex justify-content-md-between justify-content-lg-start"
+                                            data-select2-id="38">
+                                            <div class="form-group col-lg-6 col-sm-12 col-md-6" data-select2-id="37">
+                                                <div class="mb-3 me-4" data-select2-id="36">
+                                                    <label class="form-label fw-bold">Ledger Name </label>
+                                                    <select
+                                                        class="form-select js-select-search-ddl select2-hidden-accessible"
+                                                        name="supplier" id="ddlSupplierName" required="" validate=""
+                                                        data-select2-id="ddlSupplierName" tabindex="-1"
+                                                        aria-hidden="true" disabled
+                                                        style="border-left-color: rgb(249, 117, 21);">
+                                                        {% for i in purchaseGRN_lst %}
+                                                        <option value="{{i.supplier}}" selected="">
+                                                            {{i.supplier_name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-sm-12 col-md-6"
+                                                style="position: absolute;right: 37%;width: 28%;">
+                                                <div class="form-group mt-4 mb-3 me-2" id="">
+                                                    <div class="input-group date datepicker mt-2"
+                                                        id="datePickerExample3">
+                                                        <span class="input-group-text fw-bold"> Date</span>
+                                                        {% for i in purchaseGRN_lst %}
+                                                        <input type="text" name="date" value="{{i.date}}" tabindex="-1"
+                                                            class="form-control" id="txtdDate" name="txtExpectedDate"
+                                                            control="date" setdate="yes" readonly="">
+                                                        {% endfor %}
+                                                        <span class="input-group-text input-group-addon"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-calendar">
+                                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2">
+                                                                </rect>
+                                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                            </svg></span>
+                                                    </div>
+                                                    <input type="hidden" id="hdnExpDate">
+                                                    <!-- <input type="hidden" name="hiddenSalesDate" id="hiddenSalesDate" >  -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-sm-12">
+                                        <div class="d-lg-flex d-md-flex justify-content-md-between justify-content-lg-start"
+                                            style="width:45%; position: absolute;left:69%;">
+
+
+                                            <div class="col-md-6 col-sm-6 col-lg-7">
+                                                <div class="form-group mt-4 mb-3" id="">
+                                                    <div class="input-group date datepicker mt-2"
+                                                        id="PurchaseOrderdatePicker">
+                                                        <span class="input-group-text fw-bold">PO.Date</span>
+                                                        <input type="text" tabindex="-1" class="form-control"
+                                                            id="txtPODate" name="txtPODate" control="date" setdate="yes"
+                                                            readonly="">
+                                                        <span class="input-group-text input-group-addon"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-calendar">
+                                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2">
+                                                                </rect>
+                                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                            </svg></span>
+                                                    </div>
+                                                    <input type="hidden" name="hiddenPODate" id="hiddenPODate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECOND ROW -->
+                        <div class="row" data-select2-id="20">
+
+                            <div class="form-group col-md-6 col-sm-4 col-lg-3" data-select2-id="19" style="width: 30%;">
+                                <div class="mb-3" data-select2-id="18">
+                                    <label class="form-label fw-bold">Item Name</label>
+                                    <select name="product" id="ddlItemName"
+                                        class="form-select js-select-search-ddl select2-hidden-accessible" validate=""
+                                        data-select2-id="ddlItemName" tabindex="-1" aria-hidden="true" disabled
+                                        style="border-left-color: rgb(249, 117, 21);">
+                                        {% for i in purchaseGRN_lst %}
+
+                                        <option value="{{i.product}}" selected>{{i.product_name}}<input type="text"
+                                                hidden value="{{i.product_price}}" id="prductpriceid"></option>
+                                        {% endfor%}
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-2 col-sm-6 col-md-4"
+                                style="width: 30%; position: absolute;right: 36.5%;">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="txtQuantity">Quantity</label>
+                                    <input type="text" class="form-control" id="txtQuantity" name="quantity" validate=""
+                                        oninput=" 
+                                               this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        style="border-left-color: rgb(249, 117, 21);">
+                                    <span class="text-danger" id="spanQuantity"></span>
+                                </div>
+
+                            </div>
+                            <input type="hidden" id="hiddenEstDetArray" name="hiddenEstDetArray" value="">
+                            <div class="mb-3 col-lg-3 col-md-4" style="width: 30%; position: absolute;right: 2.5%;">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-bold" for="txtAmount">Amount <small
+                                            class="text-muted">(Incl. Tax)</small></label>
+                                    <div class="input-group">
+                                        <input type="text" tabindex="-1" class="form-control" id="txtAmount"
+                                            name="Amount" readonly="">
+                                        <span id="btnAdd" onclick="GRN_update()"
+                                            class="input-group-text btn btn-success text-white">Add</span>
+                                        <span id="btnupdate" onclick=" "
+                                            class="input-group-text btn btn-success text-white"
+                                            style="display: none;">update</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- TABLE OF PURCHASE ORDER DATA -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-3">
+
+                                <thead class="text-center" style="background-color: #ecf0f5;">
+                                    <tr>
+
+                                        <th class="text-dark fw-bolder">date</th>
+                                        <th class="text-dark fw-bolder">supplier</th>
+                                        <th class="text-dark fw-bolder">Item</th>
+                                        <th class="text-dark fw-bolder">Qty</th>
+                                        <th class="text-dark fw-bolder">Amount</th>
+                                        <th class="text-dark fw-bolder">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyRow">
+                                    {% for i in purchaseGRN_lst %}
+                                    <tr>
+                                        <td hidden>{{i.id}} <input type="text" hidden value="{{ i.id }}" id="grnidget">
+                                        </td>
+                                        <td style="text-align: center;">{{ i.date }}</td>
+                                        <td style="text-align: center;">{{ i.supplier_name }}</td>
+                                        <td style="text-align: center;">{{ i.product_name }}</td>
+                                        <td style="text-align: center;">{{ i.remaining_qty }} <input type="text" hidden
+                                                value="{{ i.remaining_qty }}" id="grnqtyedit"></td>
+                                        <td style="text-align: center;">{{ i.amount }}<input type="text" hidden
+                                                value="{{ i.amount }}" id="grnamtedit"></td>
+                                        <td style="text-align: center;"><a onclick="updateGRN_Function()"
+                                                class="btn btn-outline-success btn-sm"
+                                                style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;">
+                                                edit &nbsp;<i class="fas fa-check-circle fa-lg"></i>
+                                                <a onclick="cancel_function()" data-id="{{ i.id }}"
+                                                    class="btn btn-outline-danger btn-sm"
+                                                    style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;">
+                                                    remove &nbsp;<i class="fa-duotone fa-trash-list fa-lg"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr val="1">
+                                        <td colspan="9" id="trNoRecord" style="display: none;"
+                                            class="text-muted text-center">No Records Added</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="d-lg-flex justify-content-lg-between">
+                                <div class="col-lg-5">
+                                    <div class="form-group mb-3">
+
+                                    </div>
+                                    <div class="mb-3">
+
+                                    </div>
+                                    <div class="form-group mb-3">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for=""></label>
+                                    <div class="mt-2 mb-3">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text col-5 fw-bold">Total
+                                                Amount</span>
+                                            <input tabindex="-1" type="text" name="txtTaxableAmount"
+                                                id="txtTaxableAmount" class="form-control" readonly="">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="float-end">
+
+
+                                        <input type="hidden" id="hiddenEdit" name="hiddenEdit" value="0">
+                                        <a type="submit" id="btnSave" href="{% url 'final_GRN_create' %}" name="btnSave"
+                                            class="btn btn-success" value="Save" fdprocessedid="g116m"
+                                            style="position: absolute;right:22%;padding-left: 30px;padding-right: 30px;">Save</a>
+
+
+                                        <button type="button" id="btnClear" onclick="window.location.reload()"
+                                            class="btn btn-danger" fdprocessedid="t7jdbc"
+                                            style="position: absolute;right:12%;padding-left: 30px;padding-right: 30px;">Cancel</button>
+
+                                        <a href="#" type="button" id="btnGoToList" class="btn btn-primary submit"
+                                            style="position: absolute;right:3.5%;padding-left: 10px;padding-right: 10px;">Go
+                                            To
+                                            List</a>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+
+        </form>
+    </div>
+    </form>
+
+
+</div>
+
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+<style>
+
+</style>
+
+
+<script>
+
+    // if (parseInt(this.value) > 100) { this.value = '100'; }
+
+
+    $("#cancelbtn").on("click", function () {
+        location.reload();
+    });
+
+    // qnty to Amount function
+    // var Qunty = $("#prductpriceid").val();
+    // $("#txtQuantity").on("input", function () {
+    //     var quan_tity = $("#txtQuantity").val();
+    //     alert(typeof $("#txtQuantity").val())
+    //     alert(typeof quan_tity)
+    //     if (parseInt($("#txtQuantity").val()) > quan_tity) {
+    //         $(this).val(Qunty);
+    //     }
+        
+    //     var amt = Qunty * quan_tity;
+    //     $("#txtAmount").val(amt);
+    //     console.log(amt)
+    // });
+
+
+
+    // -----------grn  edit
+
+
+    function updateGRN_Function() {
+        var qty = $("#grnqtyedit").val();
+        var amt = $("#grnamtedit").val();
+        alert(qty)
+        $("#txtQuantity").val(qty);
+        $("#txtAmount").val(amt);
+
+    }
+    // grn cancel
+    function cancel_function() {
+        $("#tbodyRow").empty();
+        $("#trNoRecord").show();
+    }
+
+    function edit_tempraypurchase(id) {
+        $.ajax({
+            url: "{% url 'Edit_temprypurchase' %}",
+            data: {
+                purchaseid: id,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#txtdDate").val(data.date);
+
+
+                $("#ddlSupplierName")
+                    .find('option[value="' + data.supplier + '"]')
+                    .prop("selected", true);
+
+
+                $("#txtAmount").val(data.amount);
+
+                $("#txtQuantity")
+                    .find('option[value="' + data.quantity + '"]')
+                    .prop("selected", true);
+
+                $("#ddlItemName")
+                    .find('option[value="' + data.product + '"]')
+                    .prop("selected", true);
+
+                $("#btnupdate").attr("onclick", "temprypurchase_update(" + data.id + ")");
+                $("#btnAdd").hide();
+                $("#btnupdate").show();
+            },
+        });
+    }
+    // update temprray purchase function
+    function GRN_update() {
+        supplier_id = $("#ddlSupplierName").val();
+        date_id = $("#txtdDate").val();
+        quantity_id = $("#txtQuantity").val();
+        product_id = $("#ddlItemName").val();
+        Amount_id = $("#txtAmount").val();
+        var prchid = $("#grnidget").val();
+        console.log(supplier_id, date_id, quantity_id, product_id, Amount_id);
+
+        $.ajax({
+            url: "{% url 'GRN_temprary_create' %}",
+            type: "POST",
+            data: {
+                purchseid: prchid,
+                supplier: supplier_id,
+                date: date_id,
+                quantity: quantity_id,
+                product: product_id,
+                Amount: Amount_id,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            dataType: "json",
+
+            success: function (data) {
+                console.log(data.purchase_grn.length);
+                console.log(data);
+
+                $("#tbodyRow").empty();
+                if (data.purchase_grn.length === 0) {
+                    var noDataMessage =
+                        '<p colspan="6"  style="position: absolute;right: 50%;top: 50%;">No data found</p>';
+                    $("#trNoRecord").append(noDataMessage);
+                    $("#txtTaxableAmount").val(0.0);
+                } else {
+                    $.each(data.purchase_grn, function (index, value) {
+                        var delete_url = "temprypurchse_delete(" + value.id + ")";
+                        var edit_url = "edit_tempraypurchase(" + value.id + ")";
+
+                        var row =
+                            "<tr>" +
+                            "<td>" +
+                            value.date +
+                            "</td>" +
+                            "<td>" +
+                            value.product_name +
+                            "</td>" +
+                            "<td>" +
+                            value.supplier_name +
+                            "</td>" +
+                            "<td>" +
+                            value.quantity +
+                            "</td>" +
+                            "<td>" +
+                            value.amount +
+                            "</td>" +
+                            "<td>" +
+                            '<a onclick="' +
+                            delete_url +
+                            '">' +
+                            '<i class="fa-solid fa-trash fa-fade fa-xl"></i>' +
+                            "</a>" +
+                            "&nbsp;  &nbsp;" +
+                            '<a onclick="' +
+                            edit_url +
+                            '">' +
+                            ' <i class="fa-sharp fa-solid fa-pen-to-square fa-fade fa-xl"></i>' +
+                            " </a>" +
+                            "&nbsp;  &nbsp;" +
+                            "</td></tr>";
+
+                        $("#tbodyRow").append(row);
+                        $("#txtTaxableAmount").val(value.amount);
+                    });
+
+                    $("#ddlSupplierName").val("");
+                    $("#txtdDate").val();
+                    $("#txtQuantity").val("");
+                    $("#ddlItemName").val("");
+                    $("#txtAmount").val("");
+
+                    $("#btnAdd").show();
+                    $("#btnupdate").hide();
+                }
+                $("#updatedmessage_show").show();
+                setTimeout(function () {
+                    $("#updatedmessage_show").hide();
+                }, 3000);
+            },
+        });
+    }
+
+</script>
+{% endblock %}

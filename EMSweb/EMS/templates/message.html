@@ -1,0 +1,86 @@
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert" role="alert" id="message" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+
+            </div>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+<style>
+    .alert {
+        padding: 20px;
+        background-color: #f44336;
+        color: white;
+    }
+    
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        animation: slide-in 0.5s ease-in-out forwards;
+    }
+    
+    .closebtn:hover {
+        color: black;
+    }
+    </style>
+<script type="text/javascript">
+    function closeMessage() {
+    var message = document.getElementById('message');
+    message.style.animation = 'slide-out 0.5s ease-in-out forwards';
+  
+    setTimeout(function() {
+      message.style.display = 'none';
+    }, 500);
+  }
+  
+ 
+  setTimeout(function() {
+    closeMessage();
+  }, 3000);
+
+
+  function closeaddedMessage() {
+    var message_show = document.getElementById('message_show');
+    message_show.style.animation = 'slide-out 0.5s ease-in-out forwards';
+  
+    setTimeout(function() {
+        message_show.style.display = 'none';
+    }, 500);
+  }
+  
+ 
+  setTimeout(function() {
+    closeaddedMessage();
+  }, 3000);
+  function closeupdatedMessage() {
+    var updatemessage = document.getElementById('updatemessage_show');
+    updatemessage.style.animation = 'slide-out 0.5s ease-in-out forwards';
+  
+    setTimeout(function() {
+        updatemessage.style.display = 'none';
+    }, 500);
+  }
+  
+  
+  setTimeout(function() {
+    closeupdatedMessage();
+  }, 3000);
+  
+  </script>
+  
+
+
+       
+
+
+</html>

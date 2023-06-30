@@ -1,0 +1,169 @@
+{% extends "plugin.html" %}
+{% block content %}
+
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div style="position: absolute; top: 77px; left: 77%;width: 330px;">
+                {% include "message.html" %}
+              </div>
+          <div class="page-header">
+           
+
+          </div>
+
+
+          <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <table class="table table-bordered mb-3">
+                  <thead class="text-center" style="background-color: #ecf0f5;">
+                      <tr>
+
+                          <th class="text-dark fw-bolder">PO ID</th>
+                          <th class="text-dark fw-bolder">created</th>
+                          <th class="text-dark fw-bolder">Item</th>
+                          <th class="text-dark fw-bolder">Qty</th>
+                          <th class="text-dark fw-bolder">R.Qty</th>
+                          <th class="text-dark fw-bolder">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody id="tbodyRow">
+                    
+                      {% for i in pending_lst %}
+                        <tr>
+                          <td style="text-align: center;"> {{i.id}}</td>
+                          <td style="text-align: center;">{{ i.date }}</td>
+                          <td style="text-align: center;">{{ i.product_name }}</td>
+                          <td style="text-align: center;">{{ i.quantity }}</td>
+                          <td style="text-align: center;">{{ i.remaining_qty }}</td>
+                          <td style="text-align: center;"><a href="{% url 'grn_create_page' pk=i.id %}" class="btn btn-outline-success btn-sm" style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;" >
+                            GRN &nbsp;<i class="fas fa-check-circle fa-lg"></i></a>
+                            &nbsp;
+                            &nbsp;
+                            <a onclick="fpurchase_delete(this)" data-id="{{ i.id }}" class="btn btn-outline-danger btn-sm" style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;" >
+                             delete &nbsp;<i class="fa-duotone fa-trash-list fa-lg"></i></a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                   
+                      <!-- <tr id="trNoRecord" val="1">
+                          <td colspan="9" class="text-muted text-center">No Records Added</td>
+                      </tr> -->
+                    
+                  </tbody>
+                  <!-- <tfoot>
+                      <tr>
+                          <th colspan="4">Total</th>
+                          <td class="text-end fw-bold" id="tdtotQty">0.00</td>
+                          <td colspan="2" class="text-end fw-bold" id="tdDiscount">0.00</td>
+                          <input type="hidden" value="" name="txtTotalDisAmt"
+                              id="txtTotalDisAmt">
+
+
+                          <td></td>
+                      </tr>
+                  </tfoot> -->
+              </table>
+             </div>
+                
+                  <p style="position: absolute;right: 50%;top: 50%;"  id="nodatashow" ></p>                  
+                  <p style="position: absolute;right: 50%;top: 50%;" id="nodatashow"></p>
+                  
+                </table>
+                <br>
+                <br>
+                <br>
+               
+              </div>
+              
+              
+              
+            </div>
+            
+           
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+  <!-- page-body-wrapper ends -->totalAmount
+  </div>
+ <script>
+  $(document).ready(function() {
+  $('#myTable').DataTable();
+});
+
+
+function fpurchase_delete(element) {
+  var id = element.dataset.id;
+      alert(id)
+      $("#nodatashow").hide();
+
+      $.ajax({
+
+        url: "{% url 'pending_lst_delete' %}",
+        type:"POST",
+        data: {
+          deleteid: id,
+          
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        dataType: 'json',
+        success: function (data) {
+          console.log(data.purchase_lst.length)
+          console.log(data)
+
+          $('#tbodyRow').empty();
+          if (data.purchase_lst.length === 0) {
+            var noDataMessage = '<p colspan="6"  style="position: absolute;right: 50%;top: 50%;">No data found</p>';
+            $('#tbodyRow').append(noDataMessage);
+            
+          } else {
+
+
+            $.each(data.purchase_lst, function (index, value) {
+              var grn_url="/grn_create_page/"+ value.id+ "/";
+              var delete_url = "fpurchase_delete(" + value.id + ")";
+
+              var row = '<tr>' +
+                '<td>' + value.id + '</td>' +
+                '<td>' + value.date + '</td>' +
+                '<td>' + value.product_name + '</td>' +
+                '<td>' + value.quantity + '</td>' +
+                '<td>' + value.remaining_qty + '</td>' +
+                '<td>' + '<a onclick="' + grn_url + '">' +
+                '<a class="btn btn-outline-success btn-sm" style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;">'
+                            +'GRN &nbsp;<i class="fas fa-check-circle fa-lg"></i>' +
+                '</a>' +
+                '&nbsp;  &nbsp;' +
+                ' <a onclick="fpurchase_delete(this)" data-id="{{ i.id }}" class="btn btn-outline-danger btn-sm" style="padding-left:5px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;">'
+                            + 'delete &nbsp;<i class="fa-duotone fa-trash-list fa-lg"></i></a>' + '&nbsp;  &nbsp;' + '</td></tr>'
+
+              $('#tbodyRow').append(row);
+
+            });
+           
+
+          }
+         
+          $("#deletedmessage_show").show();
+          setTimeout(function () {
+            $("#deletedmessage_show").hide();
+          }, 3000)
+        }
+
+
+
+      })
+    }
+
+  
+
+ </script>
+{% endblock %}
